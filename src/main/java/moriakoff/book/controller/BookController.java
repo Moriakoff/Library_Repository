@@ -31,7 +31,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable long id) {
+    public Book getBook(@PathVariable("id") long id) {
         return bookService.getBook(id);
     }
 
@@ -41,7 +41,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public Book deleteBook(@PathVariable long id) {
+    public Book deleteBook(@PathVariable("id") long id) {
         return bookService.delete(id);
     }
 
@@ -56,13 +56,13 @@ public class BookController {
     }
 
     @GetMapping("/get_all/publisher/{publisherName}")
-    public List <Book> getAllBooksByPublisher(@PathVariable String publisherName) {
+    public List <Book> getAllBooksByPublisher(@PathVariable("publisherName") String publisherName) {
         return bookService.getAllBooksByPublisher(new PublisherDto(publisherName));
     }
 
     @GetMapping("get_all/author/")
-    public List <Book> getAllBooksByAuthor(@RequestParam String firstName,
-                                           @RequestParam String lastName) {
+    public List <Book> getAllBooksByAuthor(@RequestParam("firstName") String firstName,
+                                           @RequestParam("lastName") String lastName) {
         return bookService.getAllBooksByAuthor(new AuthorDto(firstName,lastName));
     }
 
@@ -74,13 +74,13 @@ public class BookController {
     }
 
     @GetMapping("get_all/price")
-    public List <Book> getAllBooksBetweenPrice(@RequestParam double from,
-                                               @RequestParam double to) {
+    public List <Book> getAllBooksBetweenPrice(@RequestParam("from") double from,
+                                               @RequestParam("to") double to) {
         return bookService.getAllBooksBetweenPrice(from, to);
     }
 
     @PostMapping("/fill_repo")
-    public List <Book> fillRepository(@RequestParam int amount) {
+    public List <Book> fillRepository(@RequestParam("amount") int amount) {
         return bookService.fillRepository(amount);
     }
 

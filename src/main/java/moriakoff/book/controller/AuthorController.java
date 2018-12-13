@@ -16,7 +16,8 @@ public class AuthorController {
     AuthorService authorService;
 
     @GetMapping
-    public AuthorDto getAuthor(@RequestParam String fName,@RequestParam String lName){
+    public AuthorDto getAuthor(@RequestParam("fName") String fName,
+                               @RequestParam("lName") String lName){
         return authorService.getAuthor(fName, lName);
     }
 
@@ -26,7 +27,7 @@ public class AuthorController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam String fName, @RequestParam String lName){
+    public boolean delete(@RequestParam("fName") String fName, @RequestParam String lName){
         return authorService.delete(fName,lName);
     }
 

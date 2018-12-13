@@ -28,7 +28,7 @@ public class PublisherController {
     }
 
     @GetMapping
-    public PublisherDto get(@RequestParam String name){
+    public PublisherDto get(@RequestParam("name") String name){
         return publisherService.getPublisher(name);
     }
 
