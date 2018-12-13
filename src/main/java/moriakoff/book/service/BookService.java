@@ -1,8 +1,9 @@
 package moriakoff.book.service;
 
-import moriakoff.book.entity.Author;
+import moriakoff.book.dto.AuthorDto;
+import moriakoff.book.dto.BookDto;
+import moriakoff.book.dto.PublisherDto;
 import moriakoff.book.entity.Book;
-import moriakoff.book.entity.Country;
 import moriakoff.book.entity.Publisher;
 
 import java.time.LocalDate;
@@ -12,21 +13,21 @@ public interface BookService {
 
     Book getBook(long isbn);
 
-    boolean add(Book book);
+    boolean add(BookDto book);
 
     Book delete(long isbn);
 
-    Book update(Book book);
+    Book update(BookDto book);
 
-    boolean addRandomBook();
+    Book addRandomBook();
 
-    List <Book> addBooks(List <Book> books);
+    List <BookDto> addBooks(List <BookDto> books);
 
     List <Book> getAll();
 
-    List <Book> getAllBooksByPublisher(Publisher publisher);
+    List <Book> getAllBooksByPublisher(PublisherDto publisher);
 
-    List <Book> getAllBooksByAuthor(Author author);
+    List <Book> getAllBooksByAuthor(AuthorDto author);
 
     List <Book> getAllBooksBetweenEdition(LocalDate from, LocalDate to);
 
@@ -34,12 +35,5 @@ public interface BookService {
 
     List <Book> fillRepository(int amount);
 
-    void deleteBooks(List <Book> books);
-
-    List <Publisher> getAllPublishersByCountry(String country);
-
-
-
-
-
+    void deleteBooks(List <Long> isbns);
 }

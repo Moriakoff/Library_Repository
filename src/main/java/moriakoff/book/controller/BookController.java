@@ -1,6 +1,9 @@
 package moriakoff.book.controller;
 
 
+import moriakoff.book.dto.AuthorDto;
+import moriakoff.book.dto.BookDto;
+import moriakoff.book.dto.PublisherDto;
 import moriakoff.book.entity.Author;
 import moriakoff.book.entity.AuthorId;
 import moriakoff.book.entity.Book;
@@ -14,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping("/book")
 public class BookController {
 
     @Autowired
@@ -22,27 +26,27 @@ public class BookController {
 
 
     @GetMapping("/randomBook")
-    public boolean addRandomBook() {
+    public Book addRandomBook() {
         return bookService.addRandomBook();
     }
 
-    @GetMapping("/book/{id}")
+    @GetMapping("/{id}")
     public Book getBook(@PathVariable long id) {
         return bookService.getBook(id);
     }
 
-    @PostMapping("/book")
-    public boolean addBook(@RequestBody Book book) {
+    @PostMapping
+    public boolean addBook(@RequestBody BookDto book) {
         return bookService.add(book);
     }
 
-    @DeleteMapping("/book/{id}")
+    @DeleteMapping("/{id}")
     public Book deleteBook(@PathVariable long id) {
         return bookService.delete(id);
     }
 
-    @PutMapping("/book")
-    public Book updateBook(@RequestBody Book book) {
+    @PutMapping
+    public Book updateBook(@RequestBody BookDto book) {
         return bookService.update(book);
     }
 
@@ -51,15 +55,15 @@ public class BookController {
         return bookService.getAll();
     }
 
-    @GetMapping("/get_all/publisher/{publishername}")
+    @GetMapping("/get_all/publisher/{publisherName}")
     public List <Book> getAllBooksByPublisher(@PathVariable String publisherName) {
-        return bookService.getAllBooksByPublisher(new Publisher(publisherName));
+        return bookService.getAllBooksByPublisher(new PublisherDto(publisherName));
     }
 
     @GetMapping("get_all/author/")
     public List <Book> getAllBooksByAuthor(@RequestParam String firstName,
                                            @RequestParam String lastName) {
-        return bookService.getAllBooksByAuthor(new Author(new AuthorId(firstName, lastName)));
+        return bookService.getAllBooksByAuthor(new AuthorDto(firstName,lastName));
     }
 
     @GetMapping("get_all/edition")
@@ -80,9 +84,4 @@ public class BookController {
         return bookService.fillRepository(amount);
     }
 
-
-    @GetMapping("/publisher")
-    public List<Publisher> getAllPublishersByCountry(@RequestParam String country){
-        return bookService.getAllPublishersByCountry(country);
-    }
 }

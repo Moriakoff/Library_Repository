@@ -1,6 +1,9 @@
 package moriakoff.book.service;
 
 import moriakoff.book.configuration.RandomConfig;
+import moriakoff.book.dto.AuthorDto;
+import moriakoff.book.dto.BookDto;
+import moriakoff.book.dto.PublisherDto;
 import moriakoff.book.entity.Author;
 import moriakoff.book.entity.Book;
 import moriakoff.book.entity.Country;
@@ -9,6 +12,7 @@ import moriakoff.book.repository.AuthorRepository;
 import moriakoff.book.repository.BookRepository;
 import moriakoff.book.repository.CountryRepository;
 import moriakoff.book.repository.PublisherRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +27,6 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     BookRepository repository;
-    @Autowired
-    AuthorRepository authorRepository;
-    @Autowired
-    CountryRepository countryRepository;
-    @Autowired
-    PublisherRepository publisherRepository;
 
 
     @Override
@@ -38,10 +36,16 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public boolean add(Book book) {
+    public boolean add(BookDto book) {
         if (repository.existsById(book.getIsbn())) return false;
-        repository.save(book);
+        repository.save(bookDtoToBook(book));
         return true;
+    }
+
+    private Book bookDtoToBook(BookDto book) {
+        Book bookEntity = new Book();
+        BeanUtils.copyProperties(book,bookEntity);
+        return bookEntity;
     }
 
 
@@ -55,36 +59,23 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book update(Book book) {
+    public Book update(BookDto book) {
         if (repository.existsById(book.getIsbn())) return null;
-        saveCountry(book);
-        savePublisher(book);
-        return repository.save(book);
+        return repository.save(bookDtoToBook(book));
     }
 
     @Override
-    public boolean addRandomBook() {
-        return add(RandomConfig.randomBook());
+    public Book addRandomBook() {
+        return repository.save(RandomConfig.randomBook());
     }
 
     @Override
-    public List <Book> addBooks(List <Book> books) {
-        for (Book book:books) {
-            saveCountry(book);
-            savePublisher(book);
-            repository.save(book);
+    public List <BookDto> addBooks(List <BookDto> books) {
+        for (BookDto book:books) {
+            repository.save(bookDtoToBook(book));
         }
         return books;
     }
-
-    private void savePublisher(Book book) {
-        publisherRepository.save(book.getPublisher());
-    }
-
-    private void saveCountry(Book book) {
-        countryRepository.save(book.getPublisher().getCountryName());
-    }
-
     @Override
     @Transactional(readOnly = true)
     public List <Book> getAll() {
@@ -93,14 +84,26 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List <Book> getAllBooksByPublisher(Publisher publisher) {
-        return repository.findBooksByPublisher(publisher);
+    public List <Book> getAllBooksByPublisher(PublisherDto publisher) {
+        return repository.findBooksByPublisher(publisherDtoToPublisher(publisher));
+    }
+
+    private Publisher publisherDtoToPublisher(PublisherDto publisher) {
+        Publisher publisherEntity = new Publisher();
+        BeanUtils.copyProperties(publisher,publisherEntity);
+        return publisherEntity;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List <Book> getAllBooksByAuthor(Author author) {
-        return repository.findBooksByAuthors(author);
+    public List <Book> getAllBooksByAuthor(AuthorDto author) {
+        return repository.findBooksByAuthors(authorDtoToAuthor(author));
+    }
+
+    private Author authorDtoToAuthor(AuthorDto author) {
+        Author authorEntity = new Author();
+        BeanUtils.copyProperties(author,authorEntity);
+        return authorEntity;
     }
 
     @Override
@@ -121,17 +124,14 @@ public class BookServiceImpl implements BookService {
         for (int i = 0; i < amount; i++) {
             books.add(RandomConfig.randomBook());
         }
-        return addBooks(books);
+        return repository.saveAll(books);
     }
 
     @Override
     /*test method*/
-    public void deleteBooks(List <Book> books) {
-        repository.deleteAll(books);
-    }
-
-    @Override
-    public List <Publisher> getAllPublishersByCountry(String country) {
-        return publisherRepository.findPublishersByCountryName(new Country(country));
+    public void deleteBooks(List <Long> isbns) {
+        for (Long isbn : isbns) {
+            repository.deleteById(isbn);
+        }
     }
 }

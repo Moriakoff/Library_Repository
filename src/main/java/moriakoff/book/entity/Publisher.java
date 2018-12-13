@@ -2,6 +2,7 @@ package moriakoff.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Publisher implements Serializable {
 
     @Id
@@ -27,7 +29,7 @@ public class Publisher implements Serializable {
     Country countryName;
 
     @OneToMany(mappedBy = "publisher",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-            //@JsonBackReference
+    @JsonBackReference
     Set<Book> books = new HashSet<>();
 
     public Publisher(String name) {

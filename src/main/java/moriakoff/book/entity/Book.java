@@ -1,13 +1,13 @@
 package moriakoff.book.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 @Entity
 @Table(name = "books")
@@ -17,6 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = "isbn")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Book implements Serializable {
     @Id
     Long isbn;
@@ -30,13 +31,14 @@ public class Book implements Serializable {
             joinColumns = {@JoinColumn(name = "isbn")},
             inverseJoinColumns = {@JoinColumn(name = "author_first_name"),
                                   @JoinColumn(name = "author_last_name")})
-    //@JsonManagedReference
-    Set <Author> authors = new HashSet <>();
+    @JsonBackReference
+    Set <Author> authors = new ConcurrentSkipListSet<>();
 
     String title;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     Publisher publisher;
 
     LocalDate edition;

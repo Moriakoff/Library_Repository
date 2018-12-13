@@ -1,5 +1,8 @@
 package moriakoff.book;
 
+import moriakoff.book.dto.AuthorDto;
+import moriakoff.book.dto.BookDto;
+import moriakoff.book.dto.PublisherDto;
 import moriakoff.book.entity.*;
 import moriakoff.book.service.BookService;
 import org.junit.jupiter.api.AfterEach;
@@ -15,24 +18,28 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+// FIXME: 12/12/2018 
 class BookServiceImplTest {
 
 
-    private Book book1;
-    private Book book2;
-    private Book book3;
-    private Book book4;
-    private List <Book> books;
-    private Set<Author> authors;
-    private Author author1;
-    private Author author2;
-    private Publisher publisher;
-    private Country country;
+    private BookDto book1;
+    private BookDto book2;
+    private BookDto book3;
+    private BookDto book4;
+    private List <BookDto> books;
+    private Set<AuthorDto> authors;
+    private AuthorDto author1;
+    private AuthorDto author2;
+    private PublisherDto publisher;
+    private List <Long> isbnsList;
+
 
     @Autowired
     private BookService model;
@@ -41,23 +48,23 @@ class BookServiceImplTest {
     @BeforeEach
     void setUp() {
         authors = new HashSet <>();
-        author1 = new Author(new AuthorId("TestAuthor1","Testovich1"));
-        author2 = new Author(new AuthorId("TestAuthor2","Tectovich2"));
+        author1 = new AuthorDto("TestAuthor1","Testovich1");
+        author2 = new AuthorDto("TestAuthor2","Tectovich2");
         authors.add(author1);
         authors.add(author2);
-        country = new Country("TestCountry");
-        publisher = new Publisher("TestPublisher",country);
+        String country = "TestCountry";
+        publisher = new PublisherDto("TestPublisher",country);
 
-        book1 = new Book(1l,authors,"TestTitle1",publisher,
+        book1 = new BookDto(1L,authors,"TestTitle1",publisher,
                 LocalDate.of(1900,1,31),10.);
 
-        book2 = new Book(2l,authors,"TestTitle2",publisher,
+        book2 = new BookDto(2L,authors,"TestTitle2",publisher,
                 LocalDate.of(1900,2,11),20.);
 
-        book3 = new Book(3l,authors,"TestTitle3",publisher,
+        book3 = new BookDto(3L,authors,"TestTitle3",publisher,
                 LocalDate.of(1900,3,15),30.);
 
-        book4 = new Book(4l,authors,"TestTitle4",publisher,
+        book4 = new BookDto(4L,authors,"TestTitle4",publisher,
                 LocalDate.of(1900,12,31),40.);
 
         books = new ArrayList <>();
@@ -65,11 +72,16 @@ class BookServiceImplTest {
         books.add(book2);
         books.add(book3);
         books.add(book4);
+
+        isbnsList = Stream.of(1L,2L,3L,4L)
+                .collect(Collectors.toList());
+
+
     }
 
     @AfterEach
     void tearDown() {
-        model.deleteBooks(books);
+        model.deleteBooks(isbnsList);
     }
 
     @Test
@@ -92,7 +104,7 @@ class BookServiceImplTest {
     @Test
     void update() {
         assertTrue(model.add(book1));
-        Book testBook = new Book(book1.getIsbn(),book1.getAuthors(),book1.getTitle(),book1.getPublisher(),
+        BookDto testBook = new BookDto(book1.getIsbn(),book1.getAuthors(),book1.getTitle(),book1.getPublisher(),
                 LocalDate.now(), 100.);
         assertNotEquals(book1, model.update(testBook));
     }

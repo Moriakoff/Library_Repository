@@ -15,6 +15,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Getter
 @Setter
+@Builder
 public class Country implements Serializable {
     @Id
     @Column(name = "name")

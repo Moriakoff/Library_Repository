@@ -43,8 +43,8 @@ public class RandomConfig {
     public static Set <Author> randomAuthor() {
         Set <Author> authors = new HashSet <>();
         for (int i = 0; i < random.nextInt(4); i++) {
-            authors.add(new Author(new AuthorId(RandomConfig.FIRSTNAMES[random.nextInt(RandomConfig.FIRSTNAMES.length)],
-                    RandomConfig.LASTNAMES[random.nextInt(RandomConfig.LASTNAMES.length)])));
+            authors.add(new Author(RandomConfig.FIRSTNAMES[random.nextInt(RandomConfig.FIRSTNAMES.length)],
+                    RandomConfig.LASTNAMES[random.nextInt(RandomConfig.LASTNAMES.length)]));
         }
         return authors;
     }

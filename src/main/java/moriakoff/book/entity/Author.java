@@ -1,12 +1,12 @@
 package moriakoff.book.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 
 @AllArgsConstructor
@@ -17,16 +17,21 @@ import java.util.Set;
 
 @Entity
 @Table(name = "authors")
+@Builder
+@IdClass(AuthorId.class)
 public class Author implements Serializable {
 
-    @EmbeddedId
-    AuthorId id;
+    @Id
+   String firstName;
+
+    @Id
+    String lastName;
 
     @ManyToMany(mappedBy = "authors",fetch = FetchType.LAZY)
-            //@JsonBackReference
-    Set<Book> books = new HashSet <>();
+    Set<Book> books = new ConcurrentSkipListSet<>();
 
-    public Author(AuthorId id) {
-        this.id = id;
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }
