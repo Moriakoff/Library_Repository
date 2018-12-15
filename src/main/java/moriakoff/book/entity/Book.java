@@ -18,32 +18,33 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Book implements Serializable {
+public class Book implements Serializable, Comparable<Book> {
     @Id
-    Long isbn;
+    @Column(name = "ISBN")
+    private Long isbn;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(
-            name = "Book_Author",
-            joinColumns = {@JoinColumn(name = "isbn")},
-            inverseJoinColumns = {@JoinColumn(name = "author_first_name"),
-                                  @JoinColumn(name = "author_last_name")})
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Book_Author", joinColumns = {@JoinColumn(name = "isbn")}, inverseJoinColumns = {@JoinColumn(name = "author_first_name"), @JoinColumn(name = "author_last_name")})
     @JsonBackReference
-    Set <Author> authors = new ConcurrentSkipListSet<>();
+    private Set<Author> authors = new ConcurrentSkipListSet<>();
 
-    String title;
+    private String title;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Publisher_name")
     @JsonBackReference
-    Publisher publisher;
+    private Publisher publisher;
 
-    LocalDate edition;
+    @Column(name = "Edition_date")
+    private LocalDate edition;
 
-    double price;
+    @Column(name = "Price")
+    private double price;
 
 
+    @Override
+    public int compareTo(Book book) {
+        return Long.compare(isbn, book.getIsbn());
+    }
 }

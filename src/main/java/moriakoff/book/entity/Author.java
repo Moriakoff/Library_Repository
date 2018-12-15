@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"firstName", "lastName"})
 @Getter
 @Setter
 
@@ -19,19 +19,26 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @Table(name = "authors")
 @Builder
 @IdClass(AuthorId.class)
-public class Author implements Serializable {
+public class Author implements Serializable, Comparable<Author> {
 
     @Id
-   String firstName;
+    @Column(name = "First_name")
+    private String firstName;
 
     @Id
-    String lastName;
+    @Column(name = "Last_name")
+    private String lastName;
 
-    @ManyToMany(mappedBy = "authors",fetch = FetchType.LAZY)
-    Set<Book> books = new ConcurrentSkipListSet<>();
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "authors", fetch = FetchType.LAZY)
+    private Set<Book> books = new ConcurrentSkipListSet<>();
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    @Override
+    public int compareTo(Author author) {
+        return (firstName + lastName).compareTo(author.getFirstName() + author.getLastName());
     }
 }

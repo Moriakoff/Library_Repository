@@ -13,27 +13,32 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "isbn")
-public class BookDto {
+public class BookDto implements Comparable<BookDto>{
 
     @NonNull
-    Long isbn;
+    private Long isbn;
 
-    Set<AuthorDto> authors = new ConcurrentSkipListSet<>();
-
-    @NonNull
-    String title;
+    private Set<AuthorDto> authors = new ConcurrentSkipListSet<>();
 
     @NonNull
-    PublisherDto publisher;
+    private String title;
 
     @NonNull
-    LocalDate edition;
+    private PublisherDto publisher;
 
     @NonNull
-    double price;
+    private LocalDate edition;
+
+    @NonNull
+    private double price;
 
     // FIXME: 12/12/2018
     public boolean addAuthor (AuthorDto author){
         return authors.add(author);
+    }
+
+    @Override
+    public int compareTo(BookDto o) {
+        return Long.compare(isbn,o.getIsbn());
     }
 }

@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"firstName","lastName"})
 @Builder
-public class AuthorDto {
+public class AuthorDto implements Comparable<AuthorDto>{
 
     @NonNull
     String firstName;
@@ -29,6 +29,8 @@ public class AuthorDto {
     }
 
 
-
-
+    @Override
+    public int compareTo(AuthorDto author) {
+        return (firstName + lastName).compareTo(author.firstName + author.lastName);
+    }
 }

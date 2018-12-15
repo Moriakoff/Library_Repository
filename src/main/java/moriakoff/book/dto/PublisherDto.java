@@ -1,6 +1,7 @@
 package moriakoff.book.dto;
 
 import lombok.*;
+import moriakoff.book.entity.Country;
 
 @Getter
 @Setter
@@ -12,7 +13,8 @@ import lombok.*;
 public class PublisherDto {
 
     @NonNull
-    String name;
+    private String name;
 
-    String Country;
+    // FIXME: 15.12.2018
+    private String country;
 }

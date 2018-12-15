@@ -1,7 +1,7 @@
 package moriakoff.book.controller;
 
 import moriakoff.book.dto.PublisherDto;
-import moriakoff.book.entity.Publisher;
+
 import moriakoff.book.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class PublisherController {
 
     @Autowired
-    PublisherService publisherService;
+    private PublisherService publisherService;
 
     @PostMapping
     public boolean add(@RequestBody PublisherDto publisher){

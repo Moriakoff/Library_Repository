@@ -4,10 +4,7 @@ package moriakoff.book.controller;
 import moriakoff.book.dto.AuthorDto;
 import moriakoff.book.dto.BookDto;
 import moriakoff.book.dto.PublisherDto;
-import moriakoff.book.entity.Author;
-import moriakoff.book.entity.AuthorId;
 import moriakoff.book.entity.Book;
-import moriakoff.book.entity.Publisher;
 import moriakoff.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +18,7 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    BookService bookService;
+    private BookService bookService;
 
 
 

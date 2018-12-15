@@ -1,13 +1,12 @@
 package moriakoff.book.service;
 
 import moriakoff.book.dto.PublisherDto;
+import moriakoff.book.entity.Country;
 import moriakoff.book.entity.Publisher;
 import moriakoff.book.repository.PublisherRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 public class PublisherServiceImpl implements PublisherService {
@@ -19,12 +18,14 @@ public class PublisherServiceImpl implements PublisherService {
     public boolean add(PublisherDto publisher) {
         if(repository.existsById(publisher.getName())) return false;
         repository.save(publisherDtoTopublisher(publisher));
-        return false;
+        return true;
     }
 
     private Publisher publisherDtoTopublisher(PublisherDto publisher) {
         Publisher publisherEntity = new Publisher();
-        BeanUtils.copyProperties(publisher, publisher);
+        //BeanUtils.copyProperties(publisher, publisher);
+        publisherEntity.setName(publisher.getName());
+        publisherEntity.setCountryName(new Country(publisher.getCountry()));
         return publisherEntity;
     }
 

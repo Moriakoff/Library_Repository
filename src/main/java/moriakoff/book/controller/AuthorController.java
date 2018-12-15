@@ -13,7 +13,7 @@ import java.util.List;
 public class AuthorController {
 
     @Autowired
-    AuthorService authorService;
+    private AuthorService authorService;
 
     @GetMapping
     public AuthorDto getAuthor(@RequestParam("fName") String fName,
@@ -27,7 +27,7 @@ public class AuthorController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam("fName") String fName, @RequestParam String lName){
+    public boolean delete(@RequestParam("fName") String fName, @RequestParam("lName") String lName){
         return authorService.delete(fName,lName);
     }
 

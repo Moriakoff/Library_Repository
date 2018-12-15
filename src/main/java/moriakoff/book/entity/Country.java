@@ -19,5 +19,5 @@ import java.io.Serializable;
 public class Country implements Serializable {
     @Id
     @Column(name = "name")
-    String countryName;
+    private String countryName;
 }
