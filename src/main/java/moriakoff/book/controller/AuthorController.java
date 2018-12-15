@@ -1,6 +1,5 @@
 package moriakoff.book.controller;
 
-import moriakoff.book.dto.AuthorDto;
 import moriakoff.book.entity.Author;
 import moriakoff.book.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,13 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping
-    public AuthorDto getAuthor(@RequestParam("fName") String fName,
+    public Author getAuthor(@RequestParam("fName") String fName,
                                @RequestParam("lName") String lName){
         return authorService.getAuthor(fName, lName);
     }
 
     @PostMapping
-    public boolean add(@RequestBody AuthorDto author){
+    public boolean add(@RequestBody Author author){
         return authorService.add(author);
     }
 
@@ -32,12 +31,12 @@ public class AuthorController {
     }
 
     @DeleteMapping
-    public boolean delete(@RequestBody AuthorDto author){
+    public boolean delete(@RequestBody Author author){
         return authorService.delete(author);
     }
 
     @PutMapping
-    public boolean update(@RequestBody AuthorDto author){
+    public boolean update(@RequestBody Author author){
         return authorService.update(author);
     }
 

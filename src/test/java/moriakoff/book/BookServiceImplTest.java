@@ -1,9 +1,9 @@
 package moriakoff.book;
 
-import moriakoff.book.dto.AuthorDto;
-import moriakoff.book.dto.BookDto;
-import moriakoff.book.dto.PublisherDto;
-import moriakoff.book.entity.*;
+import moriakoff.book.entity.Author;
+import moriakoff.book.entity.Book;
+import moriakoff.book.entity.Country;
+import moriakoff.book.entity.Publisher;
 import moriakoff.book.service.BookService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,16 +29,17 @@ import static org.junit.Assert.*;
 class BookServiceImplTest {
 
 
-    private BookDto book1;
-    private BookDto book2;
-    private BookDto book3;
-    private BookDto book4;
-    private List <BookDto> books;
-    private Set<AuthorDto> authors;
-    private AuthorDto author1;
-    private AuthorDto author2;
-    private PublisherDto publisher;
+    private Book book1;
+    private Book book2;
+    private Book book3;
+    private Book book4;
+    private List <Book> books;
+    private Set<Author> authors;
+    private Author author1;
+    private Author author2;
+    private Publisher publisher;
     private List <Long> isbnsList;
+    private Country country;
 
 
     @Autowired
@@ -48,23 +49,23 @@ class BookServiceImplTest {
     @BeforeEach
     void setUp() {
         authors = new HashSet <>();
-        author1 = new AuthorDto("TestAuthor1","Testovich1");
-        author2 = new AuthorDto("TestAuthor2","Tectovich2");
+        author1 = new Author("TestAuthor1","Testovich1");
+        author2 = new Author("TestAuthor2","Tectovich2");
         authors.add(author1);
         authors.add(author2);
-        String country = "TestCountry";
-        publisher = new PublisherDto("TestPublisher",country);
+        country = new Country("TestCountry");
+        publisher = new Publisher("TestPublisher",country);
 
-        book1 = new BookDto(1L,authors,"TestTitle1",publisher,
+        book1 = new Book(1L,authors,"TestTitle1",publisher,
                 LocalDate.of(1900,1,31),10.);
 
-        book2 = new BookDto(2L,authors,"TestTitle2",publisher,
+        book2 = new Book(2L,authors,"TestTitle2",publisher,
                 LocalDate.of(1900,2,11),20.);
 
-        book3 = new BookDto(3L,authors,"TestTitle3",publisher,
+        book3 = new Book(3L,authors,"TestTitle3",publisher,
                 LocalDate.of(1900,3,15),30.);
 
-        book4 = new BookDto(4L,authors,"TestTitle4",publisher,
+        book4 = new Book(4L,authors,"TestTitle4",publisher,
                 LocalDate.of(1900,12,31),40.);
 
         books = new ArrayList <>();
@@ -86,7 +87,6 @@ class BookServiceImplTest {
 
     @Test
     void getBook() {
-
     }
 
     @Test
@@ -104,7 +104,7 @@ class BookServiceImplTest {
     @Test
     void update() {
         assertTrue(model.add(book1));
-        BookDto testBook = new BookDto(book1.getIsbn(),book1.getAuthors(),book1.getTitle(),book1.getPublisher(),
+        Book testBook = new Book(book1.getIsbn(),book1.getAuthors(),book1.getTitle(),book1.getPublisher(),
                 LocalDate.now(), 100.);
         assertNotEquals(book1, model.update(testBook));
     }

@@ -1,10 +1,9 @@
 package moriakoff.book.controller;
 
 
-import moriakoff.book.dto.AuthorDto;
-import moriakoff.book.dto.BookDto;
-import moriakoff.book.dto.PublisherDto;
+import moriakoff.book.entity.Author;
 import moriakoff.book.entity.Book;
+import moriakoff.book.entity.Publisher;
 import moriakoff.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,7 +32,7 @@ public class BookController {
     }
 
     @PostMapping
-    public boolean addBook(@RequestBody BookDto book) {
+    public boolean addBook(@RequestBody Book book) {
         return bookService.add(book);
     }
 
@@ -43,7 +42,7 @@ public class BookController {
     }
 
     @PutMapping
-    public Book updateBook(@RequestBody BookDto book) {
+    public Book updateBook(@RequestBody Book book) {
         return bookService.update(book);
     }
 
@@ -54,13 +53,13 @@ public class BookController {
 
     @GetMapping("/get_all/publisher/{publisherName}")
     public List <Book> getAllBooksByPublisher(@PathVariable("publisherName") String publisherName) {
-        return bookService.getAllBooksByPublisher(new PublisherDto(publisherName));
+        return bookService.getAllBooksByPublisher(new Publisher(publisherName));
     }
 
     @GetMapping("get_all/author/")
     public List <Book> getAllBooksByAuthor(@RequestParam("firstName") String firstName,
                                            @RequestParam("lastName") String lastName) {
-        return bookService.getAllBooksByAuthor(new AuthorDto(firstName,lastName));
+        return bookService.getAllBooksByAuthor(new Author(firstName,lastName));
     }
 
     @GetMapping("get_all/edition")

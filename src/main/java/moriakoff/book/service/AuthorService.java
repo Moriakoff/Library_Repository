@@ -1,21 +1,20 @@
 package moriakoff.book.service;
 
-import moriakoff.book.dto.AuthorDto;
 import moriakoff.book.entity.Author;
 
 import java.util.List;
 
 public interface AuthorService {
 
-    boolean add(AuthorDto author);
+    boolean add(Author author);
 
-    boolean delete(AuthorDto author);
+    boolean delete(Author author);
 
     boolean delete(String fName, String lName);
 
-    boolean update(AuthorDto authorDto);
+    boolean update(Author authorDto);
 
-    AuthorDto getAuthor(String fName, String lName);
+    Author getAuthor(String fName, String lName);
 
     List<Author> getAuthors ();
 

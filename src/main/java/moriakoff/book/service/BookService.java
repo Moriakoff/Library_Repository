@@ -1,8 +1,6 @@
 package moriakoff.book.service;
 
-import moriakoff.book.dto.AuthorDto;
-import moriakoff.book.dto.BookDto;
-import moriakoff.book.dto.PublisherDto;
+import moriakoff.book.entity.Author;
 import moriakoff.book.entity.Book;
 import moriakoff.book.entity.Publisher;
 
@@ -13,21 +11,21 @@ public interface BookService {
 
     Book getBook(long isbn);
 
-    boolean add(BookDto book);
+    boolean add(Book book);
 
     Book delete(long isbn);
 
-    Book update(BookDto book);
+    Book update(Book book);
 
     Book addRandomBook();
 
-    List <BookDto> addBooks(List <BookDto> books);
+    List <Book> addBooks(List <Book> books);
 
     List <Book> getAll();
 
-    List <Book> getAllBooksByPublisher(PublisherDto publisher);
+    List <Book> getAllBooksByPublisher(Publisher publisher);
 
-    List <Book> getAllBooksByAuthor(AuthorDto author);
+    List <Book> getAllBooksByAuthor(Author author);
 
     List <Book> getAllBooksBetweenEdition(LocalDate from, LocalDate to);
 

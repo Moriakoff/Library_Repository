@@ -1,17 +1,17 @@
 package moriakoff.book.service;
 
-import moriakoff.book.dto.PublisherDto;
+import moriakoff.book.entity.Publisher;
 
 
 public interface PublisherService {
 
-    boolean add(PublisherDto publisher);
+    boolean add(Publisher publisher);
 
-    boolean update(PublisherDto publisher);
+    boolean update(Publisher publisher);
 
-    boolean delete(PublisherDto publisher);
+    boolean delete(Publisher publisher);
 
-    PublisherDto getPublisher(String name);
+    Publisher getPublisher(String name);
 
 
 }

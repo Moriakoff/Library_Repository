@@ -41,4 +41,8 @@ public class Author implements Serializable, Comparable<Author> {
     public int compareTo(Author author) {
         return (firstName + lastName).compareTo(author.getFirstName() + author.getLastName());
     }
+
+    public AuthorId getId(){
+        return new AuthorId(firstName, lastName);
+    }
 }
