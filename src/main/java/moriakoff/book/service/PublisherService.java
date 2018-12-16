@@ -5,11 +5,11 @@ import moriakoff.book.entity.Publisher;
 
 public interface PublisherService {
 
-    boolean add(Publisher publisher);
+    Publisher add(Publisher publisher);
 
-    boolean update(Publisher publisher);
+    Publisher update(Publisher publisher);
 
-    boolean delete(Publisher publisher);
+    Publisher delete(Publisher publisher);
 
     Publisher getPublisher(String name);
 

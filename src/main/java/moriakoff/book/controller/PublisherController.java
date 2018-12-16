@@ -13,21 +13,22 @@ public class PublisherController {
     private PublisherService publisherService;
 
     @PostMapping
-    public boolean add(@RequestBody Publisher publisher){
+    public Publisher add(@RequestBody Publisher publisher) {
         return publisherService.add(publisher);
     }
 
     @PutMapping
-    public boolean update(@RequestBody Publisher publisher) {
+    public Publisher update(@RequestBody Publisher publisher) {
         return publisherService.update(publisher);
     }
+
     @DeleteMapping
-    public boolean delete(@RequestBody Publisher publisher){
+    public Publisher delete(@RequestBody Publisher publisher) {
         return publisherService.delete(publisher);
     }
 
     @GetMapping
-    public Publisher get(@RequestParam("name") String name){
+    public Publisher get(@RequestParam("name") String name) {
         return publisherService.getPublisher(name);
     }
 

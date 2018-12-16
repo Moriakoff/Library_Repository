@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import moriakoff.book.configuration.CountryStringConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,7 +24,6 @@ public class Publisher implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "country")
-    @Convert(converter = CountryStringConverter.class)
     private Country countryName;
 
 

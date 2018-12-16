@@ -18,28 +18,30 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Book implements Serializable, Comparable<Book> {
+public class Book implements Serializable, Comparable <Book> {
     @Id
-    @Column(name = "ISBN")
+    @Column(name = "isbn")
     private Long isbn;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Book_Author", joinColumns = {@JoinColumn(name = "isbn")}, inverseJoinColumns = {@JoinColumn(name = "author_first_name"), @JoinColumn(name = "author_last_name")})
+    @JoinTable(name = "Books_Authors",
+            joinColumns = {@JoinColumn(name = "isbn")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")})
     @JsonBackReference
-    private Set<Author> authors = new ConcurrentSkipListSet<>();
+    private Set <Author> authors = new ConcurrentSkipListSet <>();
 
     private String title;
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Publisher_name")
+    @JoinColumn(name = "publisher_name")
     @JsonBackReference
     private Publisher publisher;
 
-    @Column(name = "Edition_date")
+    @Column(name = "edition_date")
     private LocalDate edition;
 
-    @Column(name = "Price")
+    @Column(name = "price")
     private double price;
 
 

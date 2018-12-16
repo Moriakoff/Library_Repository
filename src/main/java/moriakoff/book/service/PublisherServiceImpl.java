@@ -4,6 +4,7 @@ import moriakoff.book.entity.Publisher;
 import moriakoff.book.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PublisherServiceImpl implements PublisherService {
@@ -12,31 +13,32 @@ public class PublisherServiceImpl implements PublisherService {
     PublisherRepository repository;
 
     @Override
-    public boolean add(Publisher publisher) {
-        if(repository.existsById(publisher.getName())) return false;
-        repository.save(publisher);
-        return true;
+    @Transactional
+    public Publisher add(Publisher publisher) {
+        if (repository.existsById(publisher.getName())) return null;
+        return repository.save(publisher);
     }
 
     @Override
-    public boolean update(Publisher publisher) {
+    @Transactional
+    public Publisher update(Publisher publisher) {
         if (repository.existsById(publisher.getName())) {
-            repository.save(publisher);
-            return true;
+            return repository.save(publisher);
         }
-        return false;
+        return null;
     }
 
     @Override
-    public boolean delete(Publisher publisher) {
-        if(repository.existsById(publisher.getName())){
-            repository.delete(publisher);
-            return true;
-        }
-        return false;
+    @Transactional
+    public Publisher delete(Publisher publisher) {
+        Publisher victim = repository.findById(publisher.getName()).orElse(null);
+        if (victim == null) return null;
+        repository.delete(publisher);
+        return victim;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Publisher getPublisher(String name) {
         return repository.findById(name).orElse(null);
     }

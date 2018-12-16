@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "countries")
+@Table(name = "counties")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode

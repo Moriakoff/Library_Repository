@@ -20,7 +20,6 @@ public class BookController {
     private BookService bookService;
 
 
-
     @GetMapping("/randomBook")
     public Book addRandomBook() {
         return bookService.addRandomBook();
@@ -32,7 +31,7 @@ public class BookController {
     }
 
     @PostMapping
-    public boolean addBook(@RequestBody Book book) {
+    public Book addBook(@RequestBody Book book) {
         return bookService.add(book);
     }
 
@@ -46,30 +45,30 @@ public class BookController {
         return bookService.update(book);
     }
 
-    @GetMapping("/get_all")
+    @GetMapping("/all")
     public List <Book> getAll() {
         return bookService.getAll();
     }
 
-    @GetMapping("/get_all/publisher/{publisherName}")
+    @GetMapping("/all/publisher/{publisherName}")
     public List <Book> getAllBooksByPublisher(@PathVariable("publisherName") String publisherName) {
         return bookService.getAllBooksByPublisher(new Publisher(publisherName));
     }
 
-    @GetMapping("get_all/author/")
+    @GetMapping("all/author/")
     public List <Book> getAllBooksByAuthor(@RequestParam("firstName") String firstName,
                                            @RequestParam("lastName") String lastName) {
-        return bookService.getAllBooksByAuthor(new Author(firstName,lastName));
+        return bookService.getAllBooksByAuthor(new Author(firstName, lastName));
     }
 
-    @GetMapping("get_all/edition")
+    @GetMapping("all/edition")
     public List <Book> getAllBooksBetweenEditon(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         return bookService.getAllBooksBetweenEdition(from, to);
     }
 
-    @GetMapping("get_all/price")
+    @GetMapping("all/price")
     public List <Book> getAllBooksBetweenPrice(@RequestParam("from") double from,
                                                @RequestParam("to") double to) {
         return bookService.getAllBooksBetweenPrice(from, to);

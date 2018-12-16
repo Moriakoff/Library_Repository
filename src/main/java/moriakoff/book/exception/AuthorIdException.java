@@ -1,4 +1,4 @@
-package moriakoff.book.configuration.exception;
+package moriakoff.book.exception;
 
 public class AuthorIdException extends RuntimeException {
 

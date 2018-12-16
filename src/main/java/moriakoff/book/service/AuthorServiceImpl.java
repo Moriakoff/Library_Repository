@@ -1,11 +1,11 @@
 package moriakoff.book.service;
 
-import moriakoff.book.configuration.exception.AuthorIdException;
 import moriakoff.book.entity.Author;
-import moriakoff.book.entity.AuthorId;
+import moriakoff.book.exception.AuthorIdException;
 import moriakoff.book.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,50 +16,56 @@ public class AuthorServiceImpl implements AuthorService {
     AuthorRepository authorRepository;
 
     @Override
-    public boolean add(Author author) {
-        if(authorRepository.existsById(author.getId())){
-            return false;
+    @Transactional
+    public Author add(Author author) {
+        if (authorRepository.existsById(author.getId())) {
+            return null;
         }
-        authorRepository.save(author);
-        return false;
+        return authorRepository.save(author);
     }
 
     @Override
-    public boolean delete(Author author) {
-        if(authorRepository.existsById(author.getId())){
-            throw new AuthorIdException();
-        }
-        authorRepository.delete(author);
-        return true;
-    }
-
-    @Override
-    public boolean delete(String fName, String lName) {
-        Author authorEntity = authorRepository.findById(new AuthorId(fName, lName))
+    @Transactional
+    public Author delete(Integer id) {
+        Author authorEntity = authorRepository.findById(id)
                 .orElse(null);
-        if(authorEntity == null){
+        if (authorEntity == null) {
             throw new AuthorIdException();
         }
         authorRepository.delete(authorEntity);
-        return true;
+        return authorEntity;
     }
 
     @Override
-    public boolean update(Author author) {
+    @Transactional
+    public Author delete(Author author) {
+        Author authorEntity = authorRepository.findById(author.getId())
+                .orElse(null);
+        if (authorEntity == null) {
+            throw new AuthorIdException();
+        }
+        authorRepository.delete(authorEntity);
+        return authorEntity;
+    }
+
+    @Override
+    @Transactional
+    public Author update(Author author) {
         if (authorRepository.existsById(author.getId())) {
-            authorRepository.save(author);
-            return true;
+            return authorRepository.save(author);
         }
         throw new AuthorIdException();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Author getAuthor(String fName, String lName) {
-        return authorRepository.getOne(new AuthorId(fName,lName));
+        return authorRepository.findAuthorByFirstNameAndLastName(fName, lName);
     }
 
     @Override
-    public List<Author> getAuthors() {
+    @Transactional(readOnly = true)
+    public List <Author> getAuthors() {
         return authorRepository.findAll();
     }
 }

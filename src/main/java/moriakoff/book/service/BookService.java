@@ -11,7 +11,7 @@ public interface BookService {
 
     Book getBook(long isbn);
 
-    boolean add(Book book);
+    Book add(Book book);
 
     Book delete(long isbn);
 

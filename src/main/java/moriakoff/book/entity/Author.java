@@ -1,7 +1,7 @@
 package moriakoff.book.entity;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,19 +18,21 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @Entity
 @Table(name = "authors")
 @Builder
-@IdClass(AuthorId.class)
-public class Author implements Serializable, Comparable<Author> {
+public class Author implements Serializable, Comparable <Author> {
 
     @Id
-    @Column(name = "First_name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+
+    @Column(name = "first_name")
     private String firstName;
 
-    @Id
-    @Column(name = "Last_name")
+
+    @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "authors", fetch = FetchType.LAZY)
-    private Set<Book> books = new ConcurrentSkipListSet<>();
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authors", fetch = FetchType.LAZY)
+    private Set <Book> books = new ConcurrentSkipListSet <>();
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
@@ -40,9 +42,5 @@ public class Author implements Serializable, Comparable<Author> {
     @Override
     public int compareTo(Author author) {
         return (firstName + lastName).compareTo(author.getFirstName() + author.getLastName());
-    }
-
-    public AuthorId getId(){
-        return new AuthorId(firstName, lastName);
     }
 }

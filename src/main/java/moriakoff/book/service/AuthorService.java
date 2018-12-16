@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface AuthorService {
 
-    boolean add(Author author);
+    Author add(Author author);
 
-    boolean delete(Author author);
+    Author delete(Author author);
 
-    boolean delete(String fName, String lName);
+    Author delete(Integer id);
 
-    boolean update(Author authorDto);
+    Author update(Author authorDto);
 
     Author getAuthor(String fName, String lName);
 
-    List<Author> getAuthors ();
+    List <Author> getAuthors();
 
 }

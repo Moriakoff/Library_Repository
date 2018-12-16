@@ -28,10 +28,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public boolean add(Book book) {
-        if (repository.existsById(book.getIsbn())) return false;
-        repository.save(book);
-        return true;
+    public Book add(Book book) {
+        if (repository.existsById(book.getIsbn())) return null;
+        return repository.save(book);
     }
 
     @Override
@@ -58,6 +57,7 @@ public class BookServiceImpl implements BookService {
     public List <Book> addBooks(List <Book> books) {
         return repository.saveAll(books);
     }
+
     @Override
     @Transactional(readOnly = true)
     public List <Book> getAll() {
