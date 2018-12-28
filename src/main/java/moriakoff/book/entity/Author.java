@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 public class Author implements Serializable, Comparable <Author> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // A lot of repeating authors that differ only by ID;
     Integer id;
 
     @Column(name = "first_name")
@@ -31,7 +31,7 @@ public class Author implements Serializable, Comparable <Author> {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authors", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "authors", fetch = FetchType.LAZY)
     private Set <Book> books = new ConcurrentSkipListSet <>();
 
     public Author(String firstName, String lastName) {
